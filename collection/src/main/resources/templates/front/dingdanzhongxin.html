@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+        <meta name="author" content="order by dede58.com"/>
+		<title>个人中心</title>
+		<link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+	</head>
+	<body>
+	<!-- start header -->
+		<header>
+			<div class="top center">
+				<div class="left fl">
+					<ul>
+						<li><a href="/index" target="_blank">收藏品交易商城</a></li>
+						<li>|</li>
+						<li><a href="">COLLECTION</a></li>
+						<li>|</li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right fr">
+					<div class="gouwuche fr"><a href="/trade/cartPage">购物车</a></div>
+					<div class="fr">
+						<ul>
+							<li><a href="login.html" target="_blank">登录</a></li>
+							<li>|</li>
+							<li><a href="register.html" target="_blank" >注册</a></li>
+							<li>|</li>
+							<li><a href="/user/self/info">个人中心</a></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</header>
+	<!--end header -->
+	<!-- start banner_x -->
+		<div class="banner_x center">
+			<a href="index.html" target="_blank"><div class="fl"></div></a>
+			<a href=""><div class="ad_top fl"></div></a>
+			<div class="nav fl">
+				<ul>
+					<li><a href="/goods/list" target="_blank">商品浏览</a></li>
+					<li><a href="/order/center" target="_blank">订单中心</a></li>
+					<li><a href="">古玩</a></li>
+					<li><a href="">数码</a></li>
+					<li><a href="">车型</a></li>
+					<li><a href="">书籍·漫画</a></li>
+					<!--<li><a href="">路由器</a></li>-->
+					<!--<li><a href="">智能硬件</a></li>-->
+					<li><a href="">服务</a></li>
+					<li><a href="">社区</a></li>
+				</ul>
+			</div>
+			<div class="search fr">
+				<form action="" method="post">
+					<div class="text fl">
+						<input type="text" class="shuru"  placeholder="">
+					</div>
+					<div class="submit fl">
+						<input type="submit" class="sousuo" value="搜索"/>
+					</div>
+					<div class="clear"></div>
+				</form>
+				<div class="clear"></div>
+			</div>
+		</div>
+<!-- end banner_x -->
+<!-- self_info -->
+	<div class="grzxbj">
+		<div class="selfinfo center">
+            <div class="lfnav fl">
+                <div class="ddzx">订单中心</div>
+                <div class="subddzx">
+                    <ul>
+                        <li><a href="/order/center" style="color:#ff6700;font-weight:bold;">我的订单</a></li>
+                        <li><a href="/order/cancelPage">取消订单</a></li>
+                        <li><a href="/userAddress/self/select">收货地址</a></li>
+                        <!--<li><a href="">评价晒单</a></li>-->
+                    </ul>
+                </div>
+                <div class="ddzx">个人中心</div>
+                <div class="subddzx">
+                    <ul>
+                        <li><a href="/user/self/info" >我的个人中心</a></li>
+                        <li><a href="/user/change/passwordPage">修改密码</a></li>
+                        <li><a href="/userColl/self/select">我的收藏</a></li>
+                        <!--<li><a href="">收货地址</a></li>-->
+                    </ul>
+                </div>
+            </div>
+
+		<div class="rtcont fr">
+			<div class="ddzxbt">交易订单</div>
+
+			<div class="ddxq" th:each="obj:${order}">
+				<div class="ddspt fl"><img th:src="@{/images/{path}(path=${obj.goodsImage.imagePath})}" style="width:auto;height:auto;max-width:100%;max-height:100%;" alt=""></div>
+				<input type="text" th:value="${obj.order.id}" name="orderId" hidden="true"/>
+				<div class="ddbh fl" th:text="'订单号'+${obj.order.orderNumber}"></div>
+				<div class="ztxx fr">
+					<ul>
+						<li th:switch="${obj.order.tradeStatus}"><p th:case="0">已提交</p><p th:case="1">已结算</p><p th:case="2">已取消</p><p th:case="3">已完成</p></li>
+						<li th:switch="${obj.order.payStatus}"><p th:case="0">未付款</p><p th:case="1">已付款</p></li>
+						<li th:text="'￥'+${obj.order.orderAmount}"></li>
+						<!--<li>2017/05/20 13:30</li>-->
+						<li><a th:href="@{/order/detail/{orderId}(orderId=${obj.order.id})}">订单详情></a></li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="clear"></div>
+			</div>
+
+		</div>
+		<div class="clear"></div>
+		</div>
+	</div>
+<!-- self_info -->
+		
+		<!--<footer class="mt20 center">			-->
+			<!--<div class="mt20">小米商城|MIUI|米聊|多看书城|小米路由器|视频电话|小米天猫店|小米淘宝直营店|小米网盟|小米移动|隐私政策|Select Region</div>-->
+			<!--<div>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号</div> -->
+			<!--<div>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</div>-->
+		<!--</footer>-->
+	</body>
+</html>

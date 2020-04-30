@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.ClassParentDao">
+    <resultMap id="ClassParentMap" type="com.collection.eo.ClassParent">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="class_parent_name" property="classParentName" jdbcType="VARCHAR"></result>
+        <result column="state" property="state" jdbcType="TINYINT"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+    </resultMap>
+
+    <sql id="table">
+        coll_class_parent
+    </sql>
+
+    <sql id="filed">
+        id,class_parent_name,state,create_time,dr
+    </sql>
+
+    <insert id="addClassParent">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classParentName!=null">class_parent_name,</if>
+            <if test="state!=null">state,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classParentName!=null">#{classParentName},</if>
+            <if test="state!=null">#{state},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateClassParent">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="classParentName!=null">class_parent_name=#{classParentName},</if>
+            <if test="state!=null">state=#{state},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteClassParentById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="selectClassParent" resultMap="ClassParentMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="classParentName!=null">and class_parent_name=#{classParentName}</if>
+            <if test="state!=null">and state=#{state}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryClassParent" resultMap="ClassParentMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="classParentName!=null">and class_parent_name like CONCAT('%',#{classParentName},'%')</if>
+            <if test="state!=null">and state like CONCAT('%',#{state},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+
+    <select id="selectClassParentById" resultMap="ClassParentMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+        id=#{id,jdbcType=INTEGER}
+        and dr=0
+    </select>
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.OrderDao">
+    <resultMap id="OrderMap" type="com.collection.eo.Order">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="order_number" property="orderNumber" jdbcType="VARCHAR"></result>
+        <result column="trade_status" property="tradeStatus" jdbcType="TINYINT"></result>
+        <result column="pay_status" property="payStatus" jdbcType="TINYINT"></result>
+        <result column="order_amount" property="orderAmount" jdbcType="DECIMAL"></result>
+        <result column="pay_amount"  property="payAmount" jdbcType="DECIMAL"></result>
+        <result column="pay_time" property="payTime" jdbcType="DATE"></result>
+        <result column="order_trade_id" property="orderTradeId" jdbcType="VARCHAR"></result>
+        <result column="remark" property="remark" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+        <association property="buyer" javaType="com.collection.eo.User"
+        column="buyer_id" select="com.collection.dao.UserDao.selectUserById"></association>
+        <association property="userAddress" javaType="com.collection.eo.UserAddress"
+        column="address_id" select="com.collection.dao.UserAddressDao.selectUserAddressById"></association>
+    </resultMap>
+
+    <sql id="table">
+        coll_order
+    </sql>
+
+    <sql id="filed">
+        id,order_number,buyer_id,address_id,trade_status,pay_status,order_amount,pay_amount,pay_time,order_trade_id,remark,create_time,dr
+    </sql>
+
+    <insert id="addOrder"   useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNumber!=null">order_number,</if>
+            <if test="buyer!=null">buyer_id,</if>
+            <if test="userAddress!=null">address_id,</if>
+            <if test="tradeStatus!=null">trade_status,</if>
+            <if test="payStatus!=null">pay_status,</if>
+            <if test="orderAmount!=null">order_amount,</if>
+            <if test="payAmount!=null">pay_amount,</if>
+            <if test="payTime!=null">pay_time,</if>
+            <if test="orderTradeId!=null">order_trade_id,</if>
+            <if test="remark!=null">remark,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNumber!=null">#{orderNumber},</if>
+            <if test="buyer!=null">#{buyer.id},</if>
+            <if test="userAddress!=null">#{userAddress.id},</if>
+            <if test="tradeStatus!=null">#{tradeStatus},</if>
+            <if test="payStatus!=null">#{payStatus},</if>
+            <if test="orderAmount!=null">#{orderAmount},</if>
+            <if test="payAmount!=null">#{payAmount},</if>
+            <if test="payTime!=null">#{payTime},</if>
+            <if test="orderTradeId!=null">#{orderTradeId},</if>
+            <if test="remark!=null">#{remark},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOrder">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="orderNumber!=null">order_number=#{orderNumber},</if>
+            <if test="buyer!=null">buyer_id=#{buyer.id},</if>
+            <if test="userAddress!=null">address_id=#{userAddress.id},</if>
+            <if test="tradeStatus!=null">trade_status=#{tradeStatus},</if>
+            <if test="payStatus!=null">pay_status=#{payStatus},</if>
+            <if test="orderAmount!=null">order_amount=#{orderAmount},</if>
+            <if test="payAmount!=null">pay_amount=#{payAmount},</if>
+            <if test="payTime!=null">pay_time=#{payTime},</if>
+            <if test="orderTradeId!=null">order_trade_id=#{orderTradeId},</if>
+            <if test="remark!=null">remark=#{remark},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteOrderById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteOrderByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectOrder" resultMap="OrderMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="orderNumber!=null">and order_number=#{orderNumber}</if>
+            <if test="buyer!=null">and buyer_id=#{buyer.id}</if>
+            <if test="userAddress!=null">and address_id=#{userAddress.id}</if>
+            <if test="tradeStatus!=null">and trade_status=#{tradeStatus}</if>
+            <if test="payStatus!=null">and pay_status=#{payStatus}</if>
+            <if test="orderAmount!=null">and order_amount=#{orderAmount}</if>
+            <if test="payAmount!=null">and pay_amount=#{payAmount}</if>
+            <if test="payTime!=null">and pay_time=#{payTime}</if>
+            <if test="orderTradeId!=null">and order_trade_id=#{orderTradeId}</if>
+            <if test="remark!=null">and remark=#{remark}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryOrder" resultMap="OrderMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="orderNumber!=null">and order_number like CONCAT('%',#{orderNumber},'%')</if>
+            <if test="buyer!=null">and buyer_id like CONCAT('%',#{buyer.id},'%')</if>
+            <if test="userAddress!=null">and address_id like CONCAT('%',#{userAddress.id},'%')</if>
+            <if test="tradeStatus!=null">and trade_status like CONCAT('%',#{tradeStatus},'%')</if>
+            <if test="payStatus!=null">and pay_status like CONCAT('%',#{payStatus},'%')</if>
+            <if test="orderAmount!=null">and order_amount like CONCAT('%',#{orderAmount},'%')</if>
+            <if test="payAmount!=null">and pay_amount like CONCAT('%',#{payAmount},'%')</if>
+            <if test="payTime!=null">and pay_time like CONCAT('%',#{payTime},'%')</if>
+            <if test="orderTradeId!=null">and order_trade_id like CONCAT('%',#{orderTradeId},'%')</if>
+            <if test="remark!=null">and remark like CONCAT('%',#{remark},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectOrderById" resultMap="OrderMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+        id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <update id="updateByOrderNumber">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="buyer!=null">buyer_id=#{buyer.id},</if>
+            <if test="userAddress!=null">address_id=#{userAddress.id},</if>
+            <if test="tradeStatus!=null">trade_status=#{tradeStatus},</if>
+            <if test="payStatus!=null">pay_status=#{payStatus},</if>
+            <if test="orderAmount!=null">order_amount=#{orderAmount},</if>
+            <if test="payAmount!=null">pay_amount=#{payAmount},</if>
+            <if test="payTime!=null">pay_time=#{payTime},</if>
+            <if test="orderTradeId!=null">order_trade_id=#{orderTradeId},</if>
+            <if test="remark!=null">remark=#{remark},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+            where order_number=#{orderNumber}
+            and dr=0
+    </update>
+
+    <select id="selectPay" resultMap="OrderMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="orderNumber!=null">order_number=#{orderNumber}</if>
+            <if test="orderTradeId!=null">and order_trade_id=#{orderTradeId}</if>
+            and order_trade_id is not null
+            and dr=0
+        </where>
+    </select>
+</mapper>

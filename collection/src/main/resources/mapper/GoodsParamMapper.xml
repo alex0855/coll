@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.GoodsParamDao">
+    <resultMap id="GoodsParamMap" type="com.collection.eo.GoodsParam">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="goods_param_name" property="goodsParamName" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+    </resultMap>
+
+    <sql id="table">
+        coll_goods_param
+    </sql>
+
+    <sql id="filed">
+        id,goods_param_name,create_time,dr
+    </sql>
+
+    <insert id="addGoodsParam">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsParamName!=null">goods_param_name,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsParamName!=null">#{goodsParamName},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGoodsParam">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="goodsParamName!=null">goods_param_name=#{goodsParamName},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteGoodsParamById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteGoodsParamByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectGoodsParam" resultMap="GoodsParamMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="goodsParamName!=null">and goods_param_name=#{goodsParamName}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryGoodsParam" resultMap="GoodsParamMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="goodsParamName!=null">and goods_param_name like CONCAT('%',#{goodsParamName},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectGoodsParamById" resultMap="GoodsParamMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+        id=#{id,jdbcType=INTEGER}
+        and dr=0
+    </select>
+</mapper>

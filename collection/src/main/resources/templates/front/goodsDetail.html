@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+        <meta name="author" content="order by dede58.com"/>
+		<title>立即购买-商城</title>
+		<link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+	</head>
+	<body>
+	<!-- start header -->
+		<header>
+			<div class="top center">
+				<div class="left fl">
+					<ul>
+						<li><a href="/index" target="_blank">收藏品交易商城</a></li>
+						<li>|</li>
+						<li><a href="">COLLECTION</a></li>
+						<li>|</li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right fr">
+					<div class="gouwuche fr"><a href="/trade/cartPage">购物车</a></div>
+					<div class="fr">
+						<ul>
+							<li><a href="/user/loginPage" target="_blank">登录</a></li>
+							<li>|</li>
+							<li><a href="/user/registerPage" target="_blank" >注册</a></li>
+							<li>|</li>
+							<li><a href="/user/self/info">个人中心</a></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</header>
+	<!--end header -->
+
+<!-- start banner_x -->
+		<div class="banner_x center">
+			<a href="index.html" target="_blank"><div class="fl"></div></a>
+			<a href=""><div class="ad_top fl"></div></a>
+			<div class="nav fl">
+				<ul>
+					<li><a href="/goods/list" target="_blank">商品浏览</a></li>
+					<li><a href="/order/center" target="_blank">订单中心</a></li>
+					<li><a href="">古玩</a></li>
+					<li><a href="">数码</a></li>
+					<li><a href="">车型</a></li>
+					<li><a href="">书籍·漫画</a></li>
+					<!--<li><a href="">路由器</a></li>-->
+					<!--<li><a href="">智能硬件</a></li>-->
+					<li><a href="">服务</a></li>
+					<li><a href="">社区</a></li>
+				</ul>
+			</div>
+			<div class="search fr">
+				<form action="" method="post">
+					<div class="text fl">
+						<input type="text" class="shuru"  placeholder="">
+					</div>
+					<div class="submit fl">
+						<input type="submit" class="sousuo" value="搜索"/>
+					</div>
+					<div class="clear"></div>
+				</form>
+				<div class="clear"></div>
+			</div>
+		</div>
+<!-- end banner_x -->
+
+	
+	<!-- xiangqing -->
+	<div class="xiangqing">
+		<div class="neirong w">
+			<div class="xiaomi6 fl"></div>
+			<nav class="fr">
+				<li><a href="">概述</a></li>
+				<li>|</li>
+				<li><a href="">变焦双摄</a></li>
+				<li>|</li>
+				<li><a href="">设计</a></li>
+				<li>|</li>
+				<li><a href="">参数</a></li>
+				<li>|</li>
+				<li><a th:href="@{/userColl/add/{goodsId}/(goodsId=${context.data.goods.id})}">收藏</a></li>
+				<li>|</li>
+				<li><a href="">用户评价</a></li>
+				<div class="clear"></div>
+			</nav>
+			<div class="clear"></div>
+		</div>	
+	</div>
+
+	<form id="goods_form">
+	<div class="jieshao mt20 w">
+		<div class="left fl"><img th:src="@{/images/{path}(path=${context.data.goodsImage.imagePath})}" style="width: 500px;height: 500px" alt=""></div>
+		<div class="right fr">
+			<div class="h3 ml20 mt20" th:text="${'商品名：'+context.data.goods.name}" name="goods.name"></div><input id="goodsId" type="hidden" th:value="${context.data.goods.id}"/>
+			<div class="jianjie mr40 ml20 mt10"></div>
+			<div class="jiage ml20 mt10" th:text="${'商品标题：'+context.data.goodsTitle.titleName}"></div>
+			<div class="ft20 ml20 mt20">选择规格</div>
+			<div class="xzbb ml20 mt10" th:each="obj:${context.data.standardList}">
+				<div class="banben fl">
+					<a class="goods_standard" onclick="changePrice(this)">
+						<span th:text="${obj.standardName}"></span>
+						<input type="text" th:value="${obj.id}" hidden="true">
+						<span th:text="${obj.tradePrice}+'元'"></span>
+					</a>
+				</div>
+				<div class="clear"></div>
+			</div>
+
+			<div class="xqxq mt20 ml20">
+				<div class="top1 mt10" >
+					<div class="left1 fl" id="goods_standard_name"></div>
+					<div class="right1 fr" id="goods_price"></div>
+					<input type="text" id="standardId" hidden="true" required>
+					<div class="clear"></div>
+				</div>
+				<div class="bot mt20 ft20 ftbc" id="goods_amount"></div>
+			</div>
+			<div class="xiadan ml20 mt20">
+					<input class="jrgwc"  type="button" name="jrgwc" value="立即选购" />
+					<input class="jrgwc" type="button" name="jrgwc" onclick="addCart()" value="加入购物车" />
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="clear"></div>
+		<div></div>
+	</div>
+	</form>
+
+
+	</body>
+
+</html>
+<script src="../../static/vendor/jquery/jquery.min.js"></script>
+<script>
+	$(document).ready(function () {
+
+	})
+
+	function addCart() {
+		//获取节点
+		var goodsId_opt = $("#goodsId");
+		// var standard_opt = $("#goods_standard_name");
+		// var goods_price_opt = $("#goods_price");
+		// var goods_amount_opt = $("#goods_amount");
+		var standardId_opt = $("#standardId");
+
+		//获取节点的值
+		var goodsId = goodsId_opt.val();
+		// var standard_name = standard_opt.text().replace("您选择的是：","");
+		// var goods_price = goods_price_opt.text().replace("元","");
+		// var goods_amount = goods_amount_opt.text().replace("总价：","").replace("元","");
+		var standardId = standardId_opt.val();
+
+		//json格式数据
+		var goods = {id:goodsId};
+		var standard = {goods:goods,id:standardId};
+		var cart = {goods:goods,standard:standard};
+
+
+		var cartvo = {cart:cart};
+		var jsonstr = JSON.stringify(cartvo);
+
+		// var form = $("#goods_form");
+		// var jsonstr = JSON.stringify(form);
+
+		$.ajax({
+			url:"/trade/addCart",
+			type:"POST",
+			data:jsonstr,
+			dataType:"JSON",
+			contentType: "application/json;charset=utf-8",
+			success:function (data) {
+				var data_url = eval(data);
+				window.location.href="http://localhost:8080"+data_url.url;
+			},
+			error:function (data,status,xhr) {
+				window.location.href="http://localhost:8080/index";
+			}
+		});
+		};
+
+	function changePrice(event) {
+		var standard_obj = $(event);
+		var goods_standard_name_span = standard_obj.children(":first");
+		var goods_standard_id = standard_obj.children("input");
+		var goods_price_span = standard_obj.children(":last");
+
+		var goods_standard_name_obj = $("#goods_standard_name");
+		var goods_goods_price_obj = $("#goods_price");
+		var goods_amount_obj = $("#goods_amount");
+		var goods_standard_id_obj = $("#standardId");
+
+		// alert(goods_standard_id_obj.value);
+
+		goods_standard_name_obj.text("您选择的是："+goods_standard_name_span.text());
+		goods_goods_price_obj.text(goods_price_span.text());
+		goods_amount_obj.text("总价："+goods_price_span.text());
+		goods_standard_id_obj.val(goods_standard_id.val());
+	}
+
+</script>

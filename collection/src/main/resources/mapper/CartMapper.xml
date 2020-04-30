@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.CartDao">
+    <resultMap id="CartMap" type="com.collection.eo.Cart">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="goods_number" property="goodsNumber" jdbcType="VARCHAR"></result>
+        <result column="goods_amount" property="goodsAmount" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+        <association property="user" javaType="com.collection.eo.User"
+        column="user_id" select="com.collection.dao.UserDao.selectUserById"></association>
+        <association property="goods" javaType="com.collection.eo.Goods"
+        column="goods_id" select="com.collection.dao.GoodsDao.selectGoodsById"></association>
+        <association property="standard" javaType="com.collection.eo.Standard"
+                     column="standard_id" select="com.collection.dao.StandardDao.selectStandardById"></association>
+    </resultMap>
+
+    <sql id="table">
+        coll_cart
+    </sql>
+
+    <sql id="filed">
+        id,goods_number,goods_amount,user_id,goods_id,standard_id,goods_price,create_time,dr
+    </sql>
+
+    <insert id="addCart"   useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsNumber!=null">goods_number,</if>
+            <if test="goodsAmount!=null">goods_amount,</if>
+            <if test="user!=null">user_id,</if>
+            <if test="goods!=null">goods_id,</if>
+            <if test="standard!=null">standard_id,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsNumber!=null">#{goodsNumber},</if>
+            <if test="goodsAmount!=null">#{goodsAmount},</if>
+            <if test="user!=null">#{user.id},</if>
+            <if test="goods!=null">#{goods.id},</if>
+            <if test="standard!=null">#{standard.id},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateCart">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="goodsNumber!=null">goods_number=#{goodsNumber},</if>
+            <if test="goodsAmount!=null">goods_amount=#{goodsAmount},</if>
+            <if test="user!=null">user_id=#{user.id},</if>
+            <if test="goods!=null">goods_id=#{goods.id},</if>
+            <if test="standard!=null">standard_id=#{standard.id},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteCartById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteCartByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectCart" resultMap="CartMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="goodsNumber!=null">and goods_number=#{goodsNumber}</if>
+            <if test="goodsAmount!=null">and goods_amount=#{goodsAmount}</if>
+            <if test="user!=null">and user_id=#{user.id}</if>
+            <if test="goods!=null">and goods_id=#{goods.id}</if>
+            <if test="standard!=null">and standard_id=#{standard.id}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryCart" resultMap="CartMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="goodsNumber!=null">and goods_number like CONCAT('%',#{goodsNumber},'%')</if>
+            <if test="goodsAmount!=null">and goods_amount like CONCAT('%',#{goodsAmount},'%')</if>
+            <if test="user!=null">and user_id like CONCAT('%',#{user.id},'%')</if>
+            <if test="goods!=null">and goods_id like CONCAT('%',#{goods.id},'%')</if>
+            <if test="standard!=null">and standard_id like CONCAT('%',#{standard.id},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectCartById" resultMap="CartMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="_parameter!=null">id=#{_parameter}</if>
+            and dr=0
+        </where>
+    </select>
+</mapper>

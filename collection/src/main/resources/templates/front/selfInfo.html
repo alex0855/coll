@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+        <meta name="author" content="order by dede58.com"/>
+		<title>个人中心</title>
+		<link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+		<link href="../../static/basic/css2/jsstyle.css" rel="stylesheet" type="text/css" />
+
+	</head>
+	<body>
+	<!-- start header -->
+		<header>
+			<div class="top center">
+				<div class="left fl">
+					<ul>
+						<ul>
+							<li><a href="/index" target="_blank">收藏品交易商城</a></li>
+							<li>|</li>
+							<li><a href="">COLLECTION</a></li>
+							<li>|</li>
+						</ul>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right fr">
+					<div class="gouwuche fr"><a href="/trade/cartPage">购物车</a></div>
+					<div class="fr">
+						<ul>
+							<li><a href="/user/loginPage" target="_blank">登录</a></li>
+							<li>|</li>
+							<li><a href="/user/registerPage" target="_blank" >注册</a></li>
+							<li>|</li>
+							<li><a href="/user/self/info">个人中心</a></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</header>
+	<!--end header -->
+	<!-- start banner_x -->
+		<div class="banner_x center">
+			<a href="index.html" target="_blank"><div class="fl"></div></a>
+			<a href=""><div class="ad_top fl"></div></a>
+			<div class="nav fl">
+					<ul>
+						<li><a href="/goods/list" target="_blank">商品浏览</a></li>
+						<li><a href="/order/center" target="_blank">订单中心</a></li>
+						<li><a href="">古玩</a></li>
+						<li><a href="">数码</a></li>
+						<li><a href="">车型</a></li>
+						<li><a href="">书籍·漫画</a></li>
+						<!--<li><a href="">路由器</a></li>-->
+						<!--<li><a href="">智能硬件</a></li>-->
+						<li><a href="">服务</a></li>
+						<li><a href="">社区</a></li>
+					</ul>
+			</div>
+			<div class="search fr">
+				<form action="" method="post">
+					<div class="text fl">
+						<input type="text" class="shuru"  placeholder="">
+					</div>
+					<div class="submit fl">
+						<input type="submit" class="sousuo" value="搜索"/>
+					</div>
+					<div class="clear"></div>
+				</form>
+				<div class="clear"></div>
+			</div>
+		</div>
+<!-- end banner_x -->
+<!-- self_info -->
+	<div class="grzxbj">
+		<div class="selfinfo center">
+			<div class="lfnav fl">
+				<div class="ddzx">订单中心</div>
+				<div class="subddzx">
+					<ul>
+						<li><a href="/order/center" >我的订单</a></li>
+						<li><a href="/order/cancelPage">取消订单</a></li>
+						<li><a href="/userAddress/self/select">收货地址</a></li>
+						<!--<li><a href="">评价晒单</a></li>-->
+					</ul>
+				</div>
+				<div class="ddzx">个人中心</div>
+				<div class="subddzx">
+					<ul>
+						<li><a href="/user/self/info" style="color:#ff6700;font-weight:bold;">我的个人中心</a></li>
+						<li><a href="/user/change/passwordPage">修改密码</a></li>
+						<li><a href="/userColl/self/select">我的收藏</a></li>
+						<!--<li><a href="">收货地址</a></li>-->
+					</ul>
+				</div>
+			</div>
+		<div class="rtcont fr">
+			<div class="grzlbt ml40">我的资料</div>
+			<form action="/user/self/info/change">
+			<div class="subgrzl ml40"><span>账号</span><span><input type="text" th:value="${context.username}" name="username" style="border:none;" required></span><span><a href="">编辑</a></span></div>
+			<div class="subgrzl ml40"><span>手机号</span><span><input type="text" th:value="${context.telephone}" name="telephone" style="border:none;"></span><span><a href="">编辑</a></span></div>
+			<div class="subgrzl ml40"><span>密码</span><span>************<input type="text" hidden="true" th:value="${context.password}" name="password" style="border:none;" required></span><span><a href="/user/change/passwordPage">修改密码</a></span></div>
+			<div class="subgrzl ml40"><span>邮箱</span><span><input type="email" th:value="${context.email}" name="email" style="border:none;"></span><span><a href="">修改邮箱</a></span></div>
+			<div class="subgrzl ml40"><span>性别</span><span><select name="sex">
+				<option value="0" th:selected="${context.sex==0}"><strong>男</strong></option>
+				<option value="1" th:selected="${context.sex==1}"><strong>女</strong></option>
+			</select></span><span><a href="">编辑</a></span></div>
+				<div style="position: relative">
+				<input  tabindex="0" title="点击修改个人信息" type="submit"  value="确定" style="position: absolute;width: 50px;height: 30px;right:70px"/>
+				</div>
+			</form>
+		</div>
+
+		<div class="clear"></div>
+		</div>
+	</div>
+<!-- self_info -->
+		<!---->
+		<!--<footer class="mt20 center">			-->
+			<!--<div class="mt20">收藏品商城|MIUI|隐私政策|Select Region</div>-->
+			<!--<div>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号</div> -->
+			<!--<div>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</div>-->
+		<!--</footer>-->
+	</body>
+</html>

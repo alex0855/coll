@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.GoodsImageDao">
+    <resultMap id="GoodsImageMap" type="com.collection.eo.GoodsImage">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="goods_id" property="goodsId" jdbcType="VARCHAR"></result>
+        <result column="image_path" property="imagePath" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+    </resultMap>
+
+    <sql id="table">
+        coll_goods_image
+    </sql>
+
+    <sql id="filed">
+        id,goods_id,image_path,create_time,dr
+    </sql>
+
+    <insert id="addGoodsImage" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId!=null">goods_id,</if>
+            <if test="imagePath!=null">image_path,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId!=null">#{goodsId},</if>
+            <if test="imagePath!=null">#{imagePath},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateGoodsImage">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="goodsId!=null">goods_id=#{goodsId},</if>
+            <if test="imagePath!=null">image_path=#{imagePath},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteGoodsImageById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteGoodsImageByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectGoodsImage" resultMap="GoodsImageMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="goodsId!=null">and goods_id=#{goodsId}</if>
+            <if test="imagePath!=null">and image_path=#{imagePath}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryGoodsImage" resultMap="GoodsImageMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="goodsId!=null">and goods_id like CONCAT('%',#{goodsId},'%')</if>
+            <if test="imagePath!=null">and image_path like CONCAT('%',#{imagePath},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectListByGoodsId" resultMap="GoodsImageMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="goodsId!=null">and goods_id=#{goodsId}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectByGoodsId" resultMap="GoodsImageMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="goodsId!=null">and goods_id=#{goodsId}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectGoodsImageById" resultMap="GoodsImageMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+        id=#{id,jdbcType=INTEGER}
+        and dr=0
+    </select>
+</mapper>

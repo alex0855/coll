@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.GoodsTitleDao">
+    <resultMap id="GoodsTitleMap" type="com.collection.eo.GoodsTitle">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="title_name" property="titleName" jdbcType="VARCHAR"></result>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"></result>
+        <result column="area" property="area" jdbcType="VARCHAR"></result>
+        <result column="keyword" property="keyword" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+    </resultMap>
+
+    <sql id="table">
+        coll_goods_title
+    </sql>
+
+    <sql id="filed">
+        id,title_name,goods_id,area,keyword,create_time,dr
+    </sql>
+
+    <insert id="addGoodsTitle" useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="titleName!=null">title_name,</if>
+            <if test="goodsId!=null">goods_id,</if>
+            <if test="area!=null">area,</if>
+            <if test="keyword!=null">keyword,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="titleName!=null">#{titleName},</if>
+            <if test="goodsId!=null">#{goodsId},</if>
+            <if test="area!=null">#{area},</if>
+            <if test="keyword!=null">#{keyword},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateGoodsTitle">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="titleName!=null">title_name=#{titleName},</if>
+            <if test="goodsId!=null">goods_id=#{goodsId},</if>
+            <if test="area!=null">area=#{area},</if>
+            <if test="keyword!=null">keyword=#{keyword},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteGoodsTitleById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteGoodsTitleByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectGoodsTitle" resultMap="GoodsTitleMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="titleName!=null">and title_name=#{titleName}</if>
+            <if test="goodsId!=null">and goods_id=#{goodsId}</if>
+            <if test="area!=null">and area=#{area}</if>
+            <if test="keyword!=null">and keyword=#{keyword}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryGoodsTitle" resultMap="GoodsTitleMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="titleName!=null">and title_name like CONCAT('%',#{titleName},'%')</if>
+            <if test="goodsId!=null">and goods_id like CONCAT('%',#{goodsId},'%')</if>
+            <if test="area!=null">and area like CONCAT('%',#{area},'%')</if>
+            <if test="keyword!=null">and keyword like CONCAT('%',#{keyword},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectListByGoodsId" resultMap="GoodsTitleMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="goodsId!=null">and goods_id=#{goodsId}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectByGoodsId" resultMap="GoodsTitleMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="goodsId!=null">and goods_id=#{goodsId}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectGoodsTitleById" resultMap="GoodsTitleMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+        id=#{id,jdbcType=INTEGER}
+        and dr=0
+    </select>
+
+</mapper>

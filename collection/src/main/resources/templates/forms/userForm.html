@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Carbon - Admin Template</title>
+    <link rel="stylesheet" href="../../static/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../static/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../static/css/styles.css">
+
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <div class="page-header">
+        <nav class="navbar page-header">
+            <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <a class="navbar-brand" href="#">
+                <img src="../../static/imgs/logo.png" alt="logo">
+            </a>
+
+            <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item d-md-down-none">
+                    <a href="#">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge badge-pill badge-danger">5</span>
+                    </a>
+                </li>
+
+                <li class="nav-item d-md-down-none">
+                    <a href="#">
+                        <i class="fa fa-envelope-open"></i>
+                        <span class="badge badge-pill badge-danger">5</span>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../../static/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                        <span class="small ml-1 d-md-down-none">John Smith</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-header">Account</div>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-user"></i> Profile
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-envelope"></i> Messages
+                        </a>
+
+                        <div class="dropdown-header">Settings</div>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-bell"></i> Notifications
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-wrench"></i> Settings
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-lock"></i> Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    <li class="nav-title">Navigation</li>
+
+                    <li class="nav-item">
+                        <a href="/indexm" class="nav-link">
+                            <i class="icon icon-speedometer"></i> 首页
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-target"></i> 用户管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/user/select" class="nav-link active">
+                                    <i class="icon icon-target"></i> 用户信息
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/userColl/select" class="nav-link">
+                                    <i class="icon icon-target"></i> 用户收藏
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="icon icon-target"></i> 用户地址
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="icon icon-target"></i> 管理员
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-energy"></i> 商品管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/addGoodsManagePage" class="nav-link">
+                                    <i class="icon icon-energy"></i> 添加商品
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/goods/select" class="nav-link">
+                                    <i class="icon icon-energy"></i> 商品信息
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/goodsParam/select" class="nav-link">
+                                    <i class="icon icon-energy"></i> 参数管理
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="icon icon-energy"></i> 商品评论
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="icon icon-energy"></i> 商品问答
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-graph"></i> 分类管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/classParent/select" class="nav-link">
+                                    <i class="icon icon-graph"></i> 商品分类
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-graph"></i> 订单管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/order/select" class="nav-link">
+                                    <i class="icon icon-graph"></i> 订单信息
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/order/pay/select" class="nav-link">
+                                    <i class="icon icon-graph"></i> 支付历史
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-graph"></i> 内容管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/ad/select" class="nav-link">
+                                    <i class="icon icon-graph"></i> 广告管理
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            用户表格
+                        </div>
+                        <form action="/user/query">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="search_text" name="username">
+                            <select class="form-control" id="search_sex" hidden="true" name="sex">
+                                <option value=""></option>
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                            </select>
+                            <select class="form-control" id="search_status" hidden="true" name="status">
+                                <option value=""></option>
+                                <option value="0">未激活</option>
+                                <option value="1">已激活</option>
+                            </select>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
+                                    <span class="caret" id="search_btn">选择</span>
+                                </button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li class="search_change" name="username"><a href="#">账号</a></li>
+                                    <li class="search_change" name="sex"><a href="#">性别</a></li>
+                                    <li class="search_change" name="email"><a href="#">邮箱</a></li>
+                                    <li class="search_change" name="status"><a href="#">激活状态</a></li>
+                                </ul>
+                            </div><!-- /btn-group -->
+                            &nbsp;&nbsp;&nbsp;<button type="submit" class="btn">搜索</button>
+                        </div><!-- /input-group -->
+
+                        </form>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th hidden="true">id</th>
+                                        <th>账号</th>
+                                        <th>密码</th>
+                                        <th>性别</th>
+                                        <th>邮箱</th>
+                                        <th>手机号码</th>
+                                        <th>激活状态</th>
+                                        <th>创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="ob:${context.data.list}">
+                                        <form action="/user/update">
+                                        <td hidden="true"><span th:text="${ob.id}" hidden="true"></span><input hidden="true" type="text" th:value="${ob.id}" name="id"/></td>
+                                        <td><span th:text="${ob.username}"></span><input hidden="true" type="text" th:value="${ob.username}" name="username" required/></td>
+                                        <td><span th:text="${ob.password}"></span><input hidden="true" type="text" th:value="${ob.password}" name="password" required/></td>
+                                        <td><span th:switch="${ob.sex}"><p th:case="0">男</p><p th:case="1">女</p><p th:case="*">未知</p></span>
+                                            <select name="sex" hidden="true">
+                                            <option th:selected="${ob.sex==0}" value="0">男</option>
+                                            <option th:selected="${ob.sex==0}" value="1">女</option>
+                                        </select></td>
+                                        <td><span th:text="${ob.email}"></span><input hidden="true" type="email" th:value="${ob.email}" name="email" required/></td>
+                                        <td><span th:text="${ob.telephone}"></span><input hidden="true" type="text" th:value="${ob.telephone}" name="telephone"/></td>
+                                        <td><span th:switch="${ob.status}"><p th:case="1">已激活</p><p th:case="*">未激活</p></span>
+                                            <select name="status" hidden="true">
+                                            <option th:selected="${ob.status==0}" value="0">未激活</option>
+                                            <option th:selected="${ob.status==0}" value="1">已激活</option>
+                                        </select></td>
+                                        <td th:text="${ob.createTime}"></td>
+                                         <td><button type="button" class="btn btn-info active bianji">编辑</button>&nbsp;&nbsp<button type="submit" class="btn btn-success" hidden="true">确认</button>
+                                            <a th:href="@{/user/delete/{id}(id=${ob.id})}"><button type="button" class="btn btn-warning">注销</button></a>
+                                        </td>
+                                        </form>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 column">
+                            <ul class="pagination">
+                                <li class="page-item"><a class="page-link" th:href="@{/user/select/?pageSize=10&&pageNum={pre}(pre=${context.data.prePage})}" >上一页</a></li>
+                                <li class="page-item"><a class="page-link" th:href="@{/user/select/?pageSize=10&&pageNum={pre}(pre=${context.data.prePage})}" th:text="${context.data.prePage}"></a></li>
+                                <li class="page-item active"><a class="page-link"  th:text="${context.data.pageNum}"></a></li>
+                                <li class="page-item"><a class="page-link" th:href="@{/user/select/?pageSize=10&&pageNum={next}(next=${context.data.nextPage})}" th:text="${context.data.nextPage}"></a></li>
+                                <li class="page-item"><a class="page-link" th:href="@{/user/select/?pageSize=10&&pageNum={next}(next=${context.data.nextPage})}">下一页</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 column ">
+                            <div style="width:400px;height:100px;position:relative;">
+                                <div style="width:400px;height:90px;margin: auto;  position: absolute;  top: 0; left: 0; bottom: 0; right: 0;">
+                                    <p>
+                                        <form action="/user/select">
+                                        <span>第</span>
+                                        <input type="text" size="1" th:value="${context.data.pageNum}" name="pageNum">
+                                        <input type="text" size="1" value="10" name="pageSize" hidden="true">
+                                        <span>页</span>
+                                        <button type="submit" class="btn btn-default">确定</button>
+                                        <span th:text="'共'+${context.data.total}+'条'"></span>
+                                        </form>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<script src="../../static/vendor/jquery/jquery.min.js"></script>
+<script src="../../static/vendor/popper.js/popper.min.js"></script>
+<script src="../../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/vendor/chart.js/chart.min.js"></script>
+<script src="../../static/js/carbon.js"></script>
+<script src="../../static/js/demo.js"></script>
+</body>
+</html>
+
+
+<script>
+
+    $(document).ready(function() {
+
+        $(".bianji").click(function(event){
+            event.stopPropagation();
+            var bian_opt = $(event.target);
+            bian_opt.hide();
+            bian_opt.next("button").removeAttr("hidden");
+
+            var tr_opt  = bian_opt.parent().parent();
+            var form_input = tr_opt.find("input");
+            var $jq_fo = $(form_input);
+            // for (var i = 0; i < $jq_fo.length; i++) {
+                $jq_fo.removeAttr("hidden");
+            // }
+
+            var form_span = tr_opt.find("span");
+            var $jq_fr = $(form_span);
+            // for (var i = 0; i < $jq_fr.length; i++) {
+                $jq_fr.attr("hidden",true);
+            // }
+
+            var form_select = tr_opt.find("select");
+            form_select.removeAttr("hidden");
+
+        })
+
+    });
+
+    $(".search_change").click(function (event) {
+        var search_name_href_opt = $(event.target);
+        var search_text = search_name_href_opt.text();
+
+        var search_btn_opt = $("#search_btn");
+        search_btn_opt.text(search_text);
+
+        var search_name_opt = search_name_href_opt.parent();
+        var search_name = search_name_opt.attr("name");
+
+        var search_text_opt = $("#search_text");
+        var search_sex_opt = $("#search_sex");
+        var search_status_opt = $("#search_status");
+        if (search_name=="sex") {
+            search_text_opt.attr("hidden",true);
+            search_status_opt.attr("hidden",true);
+            search_sex_opt.removeAttr("hidden");
+        } else if(search_name=="status"){
+            search_text_opt.attr("hidden",true);
+            search_sex_opt.attr("hidden",true);
+            search_status_opt.removeAttr("hidden");
+        }else {
+            search_sex_opt.attr("hidden",true);
+            search_status_opt.attr("hidden",true);
+            search_text_opt.removeAttr("hidden");
+            search_text_opt.attr("name", search_name);
+        };
+    });
+
+</script>

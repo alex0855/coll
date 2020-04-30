@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.StandardDao">
+    <resultMap id="StandardMap" type="com.collection.eo.Standard">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="standard_name" property="standardName" jdbcType="VARCHAR"></result>
+        <result column="trade_price" property="tradePrice" jdbcType="DECIMAL"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+       <association property="goods" javaType="com.collection.eo.Goods"
+                    column="goods_id" select="com.collection.dao.GoodsDao.selectGoodsById"></association>
+    </resultMap>
+
+    <sql id="table">
+        coll_standard
+    </sql>
+
+    <sql id="filed">
+        id,goods_id,standard_name,trade_price,create_time,dr
+    </sql>
+
+    <insert id="addStandard">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goods!=null">goods_id,</if>
+            <if test="standardName!=null">standard_name,</if>
+            <if test="tradePrice!=null">trade_price,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goods!=null">#{goods.id},</if>
+            <if test="standardName!=null">#{standardName},</if>
+            <if test="tradePrice!=null">#{tradePrice},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateStandard">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="goods!=null">goods_id=#{goods.id},</if>
+            <if test="standardName!=null">standard_name=#{standardName},</if>
+            <if test="tradePrice!=null">trade_price=#{tradePrice},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteStandardById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteStandardByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectStandard" resultMap="StandardMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="goods!=null">and goods_id=#{goods.id}</if>
+            <if test="standardName!=null">and standard_name=#{standardName}</if>
+            <if test="tradePrice!=null">and trade_price=#{tradePrice}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryStandard" resultMap="StandardMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="goods!=null">and goods_id like CONCAT('%',#{goods.id},'%')</if>
+            <if test="standardName!=null">and standard_name like CONCAT('%',#{standardName},'%')</if>
+            <if test="tradePrice!=null">and trade_price like CONCAT('%',#{tradePrice},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectStandardById" resultMap="StandardMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+        id=#{id,jdbcType=INTEGER}
+        and dr=0
+    </select>
+</mapper>

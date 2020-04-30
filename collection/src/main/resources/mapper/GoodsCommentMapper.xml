@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.GoodsCommentDao">
+    <resultMap id="GoodsCommentMap" type="com.collection.eo.GoodsComment">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <id column="comment" property="comment" jdbcType="VARCHAR"></id>
+        <id column="rank" property="rank" jdbcType="TINYINT"></id>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+        <association property="user" javaType="com.collection.eo.User" jdbcType="INTEGER"
+        column="user_id" select="com.collection.dao.UserDao.selectUserById"></association>
+        <association property="goods" javaType="com.collection.eo.Goods" jdbcType="INTEGER"
+                     column="goods_id" select="com.collection.dao.GoodsDao.selectGoodsById"></association>
+    </resultMap>
+
+    <sql id="table">
+        coll_goods_comment
+    </sql>
+
+    <sql id="filed">
+        id,user_id,goods_id,comment,rank,create_time,dr
+    </sql>
+
+    <insert id="addGoodsComment"   useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user!=null">user_id,</if>
+            <if test="goods!=null">goods_id,</if>
+            <if test="comment!=null">comment,</if>
+            <if test="rank!=null">rank,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user!=null">#{user.id},</if>
+            <if test="goods!=null">#{goods.id},</if>
+            <if test="comment!=null">#{comment},</if>
+            <if test="rank!=null">#{rank},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateGoodsComment">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="user!=null">user_id=#{user.id},</if>
+            <if test="goods!=null">goods_id=#{goods.id},</if>
+            <if test="comment!=null">comment=#{comment},</if>
+            <if test="rank!=null">rank=#{rank},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteGoodsCommentById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteGoodsCommentByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectGoodsComment" resultMap="GoodsCommentMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="user!=null">and user_id=#{user.id}</if>
+            <if test="goods!=null">and goods_id=#{goods.id}</if>
+            <if test="comment!=null">and comment=#{comment}</if>
+            <if test="rank!=null">and rank=#{rank}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryGoodsComment" resultMap="GoodsCommentMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="user!=null">and user_id like CONCAT('%',#{user_id},'%')</if>
+            <if test="goods!=null">and goods_id like CONCAT('%',#{goods_id},'%')</if>
+            <if test="comment!=null">and comment like CONCAT('%',#{comment},'%')</if>
+            <if test="rank!=null">and rank like CONCAT('%',#{rank},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectGoodsCommentById" resultMap="GoodsCommentMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+       where
+       id=#{id,jdbcType=INTEGER}
+       and dr=0
+    </select>
+</mapper>

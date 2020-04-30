@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.UserCollDao">
+    <resultMap id="UserCollMap" type="com.collection.eo.UserColl">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+        <association property="user" javaType="com.collection.eo.User" jdbcType="INTEGER"
+        column="user_id" select="com.collection.dao.UserDao.selectUserById"></association>
+        <association property="goods" javaType="com.collection.eo.Goods" jdbcType="INTEGER"
+                     column="goods_id" select="com.collection.dao.GoodsDao.selectGoodsById"></association>
+    </resultMap>
+
+    <sql id="table">
+        coll_user_collection
+    </sql>
+
+    <sql id="filed">
+        id,user_id,goods_id,create_time,dr
+    </sql>
+
+    <insert id="addUserColl"   useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user!=null">user_id,</if>
+            <if test="goods!=null">goods_id,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user!=null">#{user.id},</if>
+            <if test="goods!=null">#{goods.id},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateUserColl">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="user!=null">user_id=#{user.id},</if>
+            <if test="goods!=null">goods_id=#{goods.id},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteUserCollById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteUserCollByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectUserColl" resultMap="UserCollMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="user!=null">and user_id=#{user.id}</if>
+            <if test="goods!=null">and goods_id=#{goods.id}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryUserColl" resultMap="UserCollMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="user!=null">and user_id like CONCAT('%',#{user_id},'%')</if>
+            <if test="goods!=null">and goods_id like CONCAT('%',#{goods_id},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectUserCollById" resultMap="UserCollMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+       where
+       id=#{id,jdbcType=INTEGER}
+       and dr=0
+    </select>
+</mapper>

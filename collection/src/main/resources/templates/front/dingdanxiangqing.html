@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+        <meta name="author" content="order by dede58.com"/>
+		<title>个人中心</title>
+		<link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+		<link href="../../static/basic/css2/jsstyle.css" rel="stylesheet" type="text/css" />
+		<link href="../../static/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
+
+		<link href="../../static/basic/css/demo.css" rel="stylesheet" type="text/css" />
+		<link href="../../static/basic/css2/cartstyle.css" rel="stylesheet" type="text/css" />
+
+		<link href="../../static/basic/css2/jsstyle.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="../../static/js/address.js"></script>
+
+		<script src="../../static/vendor/jquery/jquery.min.js"></script>
+	</head>
+	<body>
+	<!-- start header -->
+		<header>
+			<div class="top center">
+				<div class="left fl">
+					<ul>
+						<li><a href="/index" target="_blank">收藏品交易商城</a></li>
+						<li>|</li>
+						<li><a href="">COLLECTION</a></li>
+						<li>|</li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right fr">
+					<div class="gouwuche fr"><a href="/trade/cartPage">购物车</a></div>
+					<div class="fr">
+						<ul>
+							<li><a href="login.html" target="_blank">登录</a></li>
+							<li>|</li>
+							<li><a href="register.html" target="_blank" >注册</a></li>
+							<li>|</li>
+							<li><a href="/user/self/info">个人中心</a></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</header>
+	<!--end header -->
+	<!-- start banner_x -->
+		<div class="banner_x center">
+			<a href="index.html" target="_blank"><div class="fl"></div></a>
+			<a href=""><div class="ad_top fl"></div></a>
+			<div class="nav fl">
+				<ul>
+					<li><a href="/goods/list" target="_blank">商品浏览</a></li>
+					<li><a href="/order/center" target="_blank">订单中心</a></li>
+					<li><a href="">古玩</a></li>
+					<li><a href="">数码</a></li>
+					<li><a href="">车型</a></li>
+					<li><a href="">书籍·漫画</a></li>
+					<!--<li><a href="">路由器</a></li>-->
+					<!--<li><a href="">智能硬件</a></li>-->
+					<li><a href="">服务</a></li>
+					<li><a href="">社区</a></li>
+				</ul>
+			</div>
+			<div class="search fr">
+				<form action="" method="post">
+					<div class="text fl">
+						<input type="text" class="shuru"  placeholder="">
+					</div>
+					<div class="submit fl">
+						<input type="submit" class="sousuo" value="搜索"/>
+					</div>
+					<div class="clear"></div>
+				</form>
+				<div class="clear"></div>
+			</div>
+		</div>
+<!-- end banner_x -->
+<!-- self_info -->
+	<div class="grzxbj">
+		<div class="selfinfo center">
+			<div class="lfnav fl">
+				<div class="ddzx">订单中心</div>
+				<div class="subddzx">
+					<ul>
+						<li><a href="/order/center" style="color:#ff6700;font-weight:bold;">我的订单</a></li>
+						<li><a href="/order/cancelPage">取消订单</a></li>
+						<li><a href="/userAddress/self/select">收货地址</a></li>
+						<!--<li><a href="">评价晒单</a></li>-->
+					</ul>
+				</div>
+				<div class="ddzx">个人中心</div>
+				<div class="subddzx">
+					<ul>
+						<li><a href="/user/self/info" >我的个人中心</a></li>
+						<li><a href="/user/change/passwordPage">修改密码</a></li>
+						<li><a href="/userColl/self/select">我的收藏</a></li>
+						<!--<li><a href="">收货地址</a></li>-->
+					</ul>
+				</div>
+			</div>
+		<div class="rtcont fr">
+			<div class="grzlbt ml40">我的资料</div>
+
+
+
+			<div class="concent">
+				<div id="payTable">
+					<h3>确认订单信息</h3>
+					<div class="cart-table-th">
+						<div class="wp">
+
+							<div class="th th-item">
+								<div class="td-inner">商品信息</div>
+							</div>
+							<div class="th th-price">
+								<div class="td-inner">单价</div>
+							</div>
+							<div class="th th-amount">
+								<div class="td-inner">数量</div>
+							</div>
+							<div class="th th-sum">
+								<div class="td-inner">金额</div>
+							</div>
+							<div class="th th-oplist">
+								<div class="td-inner">配送方式</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="clear"></div>
+
+					<tr class="item-list" th:each="obj,iterStat:${context.data.orderItemList}">
+						<div class="bundle  bundle-last">
+
+							<div class="bundle-main">
+								<ul class="item-content clearfix">
+									<div class="pay-phone">
+										<li class="td td-item">
+											<div class="item-pic">
+												<a href="#" class="J_MakePoint">
+													<img th:src="@{/images/{path}(path=${obj.goodsImage.imagePath})}" style="width:auto;height:auto;max-width:100%;max-height:100%;" class="itempic J_ItemImg"></a>
+											</div>
+											<div class="item-info">
+												<div class="item-basic-info">
+													<a href="#" class="item-title J_MakePoint" data-point="tbcart.8.11" th:text="${obj.goodsTitle.titleName}"></a>
+												</div>
+											</div>
+										</li>
+										<li class="td td-info">
+											<div class="item-props">
+												<span class="sku-line" th:text="${obj.goods.name}"></span>
+												<span class="sku-line" th:text="${obj.standard.standardName}"></span>
+												<input type="text" hidden="true" th:value="${obj.goods.id}" th:name="${'orderItemList['+iterStat.index+'].goods.id'}"/>
+												<input type="text" hidden="true" th:value="${obj.goods.name}" th:name="${'orderItemList['+iterStat.index+'].goods.name'}"/>
+												<input type="text" hidden="true" th:value="${obj.standard.id}" th:name="${'orderItemList['+iterStat.index+'].standard.id'}"/>
+												<input type="text" hidden="true" th:value="${obj.standard.standardName}" th:name="${'orderItemList['+iterStat.index+'].standard.standardName'}"/>
+											</div>
+										</li>
+										<li class="td td-price">
+											<div class="item-price price-promo-promo">
+												<div class="price-content">
+													<em class="J_Price price-now" th:text="${obj.standard.tradePrice}"></em>
+													<input type="text" hidden="true" th:value="${obj.standard.tradePrice}" th:name="${'orderItemList['+iterStat.index+'].goodsTradePrice'}"/>
+												</div>
+											</div>
+										</li>
+									</div>
+									<li class="td td-amount">
+										<div class="amount-wrapper ">
+											<div class="item-amount ">
+												<span class="phone-title">购买数量</span>
+												<div class="sl">
+													<!--<input class="min am-btn" name="" type="button" value="-" />-->
+													<input class="text_box" name="" type="text" th:value="${obj.goodsNumber}" style="width:30px;" />
+													<input type="text" hidden="true" th:value="${obj.goodsNumber}" th:name="${'orderItemList['+iterStat.index+'].goodsNumber'}"/>
+													<!--<input class="add am-btn" name="" type="button" value="+" />-->
+												</div>
+											</div>
+										</div>
+									</li>
+									<li class="td td-sum">
+										<div class="td-inner">
+											<em tabindex="0" class="J_ItemSum number amount" th:text="${obj.goodsAmount}"></em>
+											<input type="text" hidden="true" th:value="${obj.goodsAmount}" th:name="${'orderItemList['+iterStat.index+'].goodsAmount'}"/>
+										</div>
+									</li>
+									<li class="td td-oplist">
+										<div class="td-inner">
+											<span class="phone-title">配送方式</span>
+											<div class="pay-logis">
+												快递<b class="sys_item_freprice">10</b>元
+											</div>
+										</div>
+									</li>
+
+								</ul>
+								<div class="clear"></div>
+
+							</div>
+					</tr>
+					<div class="clear"></div>
+				</div>
+
+				</div>
+					<div class="clear"></div>
+					<div class="pay-total">
+					</div>
+		</div>
+
+
+
+
+
+
+
+
+
+		</div>
+
+		<div class="clear"></div>
+		</div>
+	</div>
+<!-- self_info -->
+		
+		<!--<footer class="mt20 center">			-->
+			<!--<div class="mt20">小米商城|MIUI|米聊|多看书城|小米路由器|视频电话|小米天猫店|小米淘宝直营店|小米网盟|小米移动|隐私政策|Select Region</div>-->
+			<!--<div>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号</div> -->
+			<!--<div>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</div>-->
+		<!--</footer>-->
+	</body>
+</html>

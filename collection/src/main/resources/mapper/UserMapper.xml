@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.UserDao">
+    <resultMap id="UserMap" type="com.collection.eo.User">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="username" property="username" jdbcType="VARCHAR"></result>
+        <result column="password" property="password" jdbcType="VARCHAR"></result>
+        <result column="sex" property="sex" jdbcType="TINYINT"></result>
+        <result column="email" property="email" jdbcType="VARCHAR"></result>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"></result>
+        <result column="status" property="status" jdbcType="INTEGER"></result>
+        <result column="code" property="code" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+    </resultMap>
+
+    <sql id="table">
+        coll_user
+    </sql>
+
+    <sql id="filed">
+        id,username,password,sex,email,telephone,status,code,create_time,dr
+    </sql>
+
+    <insert id="addUser"   useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username!=null">username,</if>
+            <if test="password!=null">password,</if>
+            <if test="sex!=null">sex,</if>
+            <if test="email!=null">email,</if>
+            <if test="telephone!=null">telephone,</if>
+            <if test="status!=null">status,</if>
+            <if test="code!=null">code,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username!=null">#{username},</if>
+            <if test="password!=null">#{password},</if>
+            <if test="sex!=null">#{sex},</if>
+            <if test="email!=null">#{email},</if>
+            <if test="telephone!=null">#{telephone},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="code!=null">#{code},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateUser">
+        UPDATE
+        <include refid="table"/>
+         <set>
+             <if test="username!=null">username=#{username},</if>
+             <if test="password!=null">password=#{password},</if>
+             <if test="sex!=null">sex=#{sex},</if>
+             <if test="email!=null">email=#{email},</if>
+             <if test="telephone!=null">telephone=#{telephone},</if>
+             <if test="status!=null">status=#{status},</if>
+             <if test="code!=null">code=#{code},</if>
+             <if test="dr!=null">dr=#{dr},</if>
+         </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteUserById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteUserByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectUser" resultMap="UserMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="username!=null">and username=#{username}</if>
+            <if test="password!=null">and password=#{password}</if>
+            <if test="sex!=null">and sex=#{sex}</if>
+            <if test="email!=null">and email=#{email}</if>
+            <if test="telephone!=null">and telephone=#{telephone}</if>
+            <if test="status!=null">and status=#{status}</if>
+            <if test="code!=null">and code=#{code}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryUser" resultMap="UserMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="username!=null">and username like CONCAT('%',#{username},'%')</if>
+            <if test="password!=null">and password like CONCAT('%',#{password},'%')</if>
+            <if test="sex!=null">and sex like CONCAT('%',#{sex},'%')</if>
+            <if test="email!=null">and email like CONCAT('%',#{email},'%')</if>
+            <if test="telephone!=null">and telephone like CONCAT('%',#{telephone},'%')</if>
+            <if test="status!=null">and status like CONCAT('%',#{status},'%')</if>
+            <if test="code!=null">and code like CONCAT('%',#{code},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectUserById" resultMap="UserMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+            id=#{id,jdbcType=INTEGER}
+            and dr=0
+    </select>
+
+    <select id="selectByNameAndEmail" resultMap="UserMap" parameterType="java.lang.String">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+        username=#{username,jdbcType=VARCHAR}
+        and email=#{email,jdbcType=VARCHAR}
+        and dr=0
+    </select>
+
+</mapper>

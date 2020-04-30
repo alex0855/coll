@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.UserTokenDao">
+    <resultMap id="UserTokenMap" type="com.collection.eo.UserToken">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="user_id" property="userId" jdbcType="INTEGER"></result>
+        <result column="ticket" property="ticket" jdbcType="VARCHAR"></result>
+        <result column="expired" property="expired" jdbcType="DATE"></result>
+        <result column="status" property="status" jdbcType="TINYINT"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+    </resultMap>
+
+    <sql id="table">
+        coll_token
+    </sql>
+
+    <sql id="filed">
+        id,user_id,ticket,expired,status,create_time,dr
+    </sql>
+
+    <insert id="addUserToken"   useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null">user_id,</if>
+            <if test="ticket!=null">ticket,</if>
+            <if test="expired!=null">expired,</if>
+            <if test="status!=null">status,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null">#{userId},</if>
+            <if test="ticket!=null">#{ticket},</if>
+            <if test="expired!=null">#{expired},</if>
+            <if test="status!=null">#{status},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateUserToken">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="userId!=null">user_id=#{userId},</if>
+            <if test="ticket!=null">ticket=#{ticket},</if>
+            <if test="expired!=null">expired=#{expired},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteUserTokenById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteUserTokenByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectUserToken" resultMap="UserTokenMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="userId!=null">and user_id=#{userId}</if>
+            <if test="ticket!=null">and ticket=#{ticket}</if>
+            <if test="expired!=null">and expired=#{expired}</if>
+            <if test="status!=null">and status=#{status}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryUserToken" resultMap="UserTokenMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="userId!=null">and user_id like CONCAT('%',#{userId},'%')</if>
+            <if test="ticket!=null">and ticket like CONCAT('%',#{ticket},'%')</if>
+            <if test="expired!=null">and expired like CONCAT('%',#{expired},'%')</if>
+            <if test="status!=null">and status like CONCAT('%',#{status},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectByTicket" resultMap="UserTokenMap" parameterType="java.lang.String">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="ticket!=null">and ticket=#{ticket}</if>
+            and dr=0
+        </where>
+    </select>
+</mapper>

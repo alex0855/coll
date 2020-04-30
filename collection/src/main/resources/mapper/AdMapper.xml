@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.AdDao">
+    <resultMap id="AdMap" type="com.collection.eo.Ad">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="ad_name" property="adName" jdbcType="VARCHAR"></result>
+        <result column="image_path" property="imagePath" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <sql id="table">
+        coll_ad
+    </sql>
+
+    <sql id="filed">
+        id,ad_name,image_path
+    </sql>
+
+    <insert id="addAd"   useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adName!=null">ad_name,</if>
+            <if test="imagePath!=null">image_path,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adName!=null">#{adName},</if>
+            <if test="imagePath!=null">#{imagePath},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateAd">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="adName!=null">ad_name=#{adName},</if>
+            <if test="imagePath!=null">image_path=#{imagePath},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteAdById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteAdByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectAd" resultMap="AdMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="adName!=null">and ad_name=#{adName}</if>
+            <if test="imagePath!=null">and image_path=#{imagePath}</if>
+        </where>
+    </select>
+
+    <select id="queryAd" resultMap="AdMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="adName!=null">and ad_name like CONCAT('%',#{adName},'%')</if>
+            <if test="imagePath!=null">and image_path like CONCAT('%',#{imagePath},'%')</if>
+        </where>
+    </select>
+
+    <select id="selectAdById" resultMap="AdMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+        id=#{id,jdbcType=INTEGER}
+    </select>
+
+
+</mapper>

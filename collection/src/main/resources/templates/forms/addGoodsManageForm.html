@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Carbon - Admin Template</title>
+    <link rel="stylesheet" href="../../static/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../static/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../static/css/styles.css">
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <div class="page-header">
+        <nav class="navbar page-header">
+            <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <a class="navbar-brand" href="#">
+                <img src="../../static/imgs/logo.png" alt="logo">
+            </a>
+
+            <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item d-md-down-none">
+                    <a href="#">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge badge-pill badge-danger">5</span>
+                    </a>
+                </li>
+
+                <li class="nav-item d-md-down-none">
+                    <a href="#">
+                        <i class="fa fa-envelope-open"></i>
+                        <span class="badge badge-pill badge-danger">5</span>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../../static/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                        <span class="small ml-1 d-md-down-none">John Smith</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-header">Account</div>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-user"></i> Profile
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-envelope"></i> Messages
+                        </a>
+
+                        <div class="dropdown-header">Settings</div>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-bell"></i> Notifications
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-wrench"></i> Settings
+                        </a>
+
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-lock"></i> Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    <li class="nav-title">Navigation</li>
+
+                    <li class="nav-item">
+                        <a href="/indexm" class="nav-link">
+                            <i class="icon icon-speedometer"></i> 首页
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-target"></i> 用户管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/user/select" class="nav-link">
+                                    <i class="icon icon-target"></i> 用户信息
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/userColl/select" class="nav-link">
+                                    <i class="icon icon-target"></i> 用户收藏
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="icon icon-target"></i> 用户地址
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="icon icon-target"></i> 管理员
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-energy"></i> 商品管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/addGoodsManagePage" class="nav-link  active">
+                                    <i class="icon icon-energy"></i> 添加商品
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/goods/select" class="nav-link">
+                                    <i class="icon icon-energy"></i> 商品信息
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="/goodsParam/select" class="nav-link">
+                                    <i class="icon icon-energy"></i> 参数管理
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="icon icon-energy"></i> 商品评论
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="icon icon-energy"></i> 商品问答
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-graph"></i> 分类管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/classParent/select" class="nav-link">
+                                    <i class="icon icon-graph"></i> 商品分类
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-graph"></i> 订单管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/order/select" class="nav-link">
+                                    <i class="icon icon-graph"></i> 订单信息
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/order/pay/select" class="nav-link">
+                                    <i class="icon icon-graph"></i> 支付历史
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-graph"></i> 内容管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="/ad/select" class="nav-link">
+                                    <i class="icon icon-graph"></i> 广告管理
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <form class="form-horizontal" role="form" action="/addGoodsManage" method="post" enctype="multipart/form-data">
+
+                            <div class="row clearfix">
+                                <div class="col-md-6 column">
+
+                                    <div class="form-group">
+                                        <label for="goodsName" class="col-sm-2 control-label">商品名称</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="goodsName" name="goods.Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="number" class="col-sm-2 control-label">库存数量</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="number" name="goods.number">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price" class="col-sm-2 control-label">标价(元)</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="price" name="goods.price">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="titleName" class="col-sm-2 control-label">商品标题</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="titleName" name="goodsTitle.titleName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="keyword" class="col-sm-2 control-label">关键字</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="keyword" name="goodsTitle.keyword">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="remark" class="col-sm-2 control-label">备注</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="remark" name="goods.remark">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6 column">
+
+                                    <div class="form-group">
+                                        <div class="col-sm-10">
+                                            <label for="classParentId">一级分类:</label>
+                                            <select class="form-control" id="classParentId" name="classParent.classParentId"
+                                                    onchange="selectClassify()">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-10">
+                                            <label for="classifyId">二级分类:</label>
+                                            <select class="form-control" id="classifyId" name="goods.classId">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="state" class="col-sm-2 control-label">上下架</label>
+                                        <div class="col-sm-10">
+                                            <!--<input type="text" class="form-control" id="state" name="goods.state">-->
+                                            <select class="form-control" id="state" name="goods.state">
+                                                <option value="1">上架</option>
+                                                <option value="2">下架</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="imagefile">商品图片</label>
+                                        <img src="" id="#imgPath" style="width: 30%;height: 30%"/>
+                                        <input type="file" id="imagefile" name="file">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <!-- 按钮：用于打开模态框 -->
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="showParam()">
+                                                添加参数
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="goodsParam">
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-default">提交</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- 模态框 -->
+                        <div class="modal fade" id="myModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- 模态框头部 -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">选择参数类型</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- 模态框主体 -->
+                                    <div class="modal-body" id="paramPage">
+                                        <!-- checkbox参数类型-->
+                                    </div>
+
+                                    <!-- 模态框底部 -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="showParamText()">确定</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script src="../../static/vendor/jquery/jquery.min.js"></script>
+<script src="../../static/vendor/popper.js/popper.min.js"></script>
+<script src="../../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../static/vendor/chart.js/chart.min.js"></script>
+<script src="../../static/js/carbon.js"></script>
+<script src="../../static/js/demo.js"></script>
+</body>
+</html>
+
+
+<script>
+    $(document).ready(function(){
+
+        abd();
+
+        function abd() {
+            $.get("/classify/classParentList",function(data,status){
+                var soption = $("#classParentId");//列表框id
+                //方法1：添加默认节点
+                soption.append("<option value=''>--请选择--</option>");
+                //转成Json对象
+                var result = eval(data);
+                //循环遍历 下拉框绑定
+                $(result).each(function (key) {
+                    //第一种方法
+                    var opt = $("<option></option>").text(result[key].classParentName).val(result[key].id);
+                    opt.addClass("classParent");
+                    soption.append(opt);
+                });
+
+            });
+        }
+
+
+
+
+    });
+
+    function selectClassify() {
+        var objS = document.getElementById("classParentId");
+        var classifyId = objS.options[objS.selectedIndex].value;
+            $.get("/classify/classifyListByParentId",
+                {classParentId:classifyId},
+                function(data,status){
+                var soption = $("#classifyId");//列表框id
+                    //清除option
+                    soption.empty();
+                //添加默认节点
+                soption.append("<option value=''>--请选择--</option>");
+                //转成Json对象
+                var result = eval(data);
+                //循环遍历 下拉框绑定
+                $(result).each(function (key) {
+                    //第一种方法
+                    var opt = $("<option></option>").text(result[key].className).val(result[key].id);
+                    soption.append(opt);
+                });
+            });
+    };
+
+    function showParam() {
+
+        $.get("/goodsParam/selectGoodsParamList",
+            function(data,status){
+                var paramPage = $("#paramPage");
+
+                paramPage.empty();
+
+                //转成Json对象
+                var result = eval(data);
+                //循环遍历 下拉框绑定
+                $(result).each(function (key) {
+
+
+                    var opt_checkbox = $("<input type='checkbox' class='form-check-input' name='param'>");
+                    opt_checkbox.val(result[key].id);
+                    var opt_span = $("<span></span>");
+                    opt_span.text(result[key].goodsParamName);
+
+                    var opt_label = $("<label class='form-check-label'>");
+                    opt_label.append(opt_checkbox);
+                    opt_label.append(opt_span);
+
+                    var opt_div = $("<div class='form-check'></div>");
+                    opt_div.append(opt_label);
+
+                    paramPage.append(opt_div);
+                });
+            });
+    };
+
+    function showParamText() {
+        var param_checkbox = $("input[name='param']:checked");
+        var goodsParamText = $("#goodsParam");
+        $(param_checkbox).each(function (key) {
+            var checkbox_span = $(param_checkbox[key]).next("span");
+
+            var opt_id = $("<input type='text' hidden='true'></input>");
+            opt_id.val(param_checkbox[key].value);
+            opt_id.attr("name","goodsParamCustList["+key+"].goodsParamId");
+
+            var opt_label = $("<label class='col-sm-2 control-label'></label>");
+            opt_label.text(checkbox_span.text());
+            opt_label.val(checkbox_span.text());
+            // opt_label.attr("name","goodsParamCustList["+key+"].goodsParamName");
+
+            var opt_input = $("<input type='text'>");
+            opt_input.attr("name","goodsParamCustList["+key+"].detail");
+
+            var opt_div = $("<div class='col-sm-10'></div>")
+
+            opt_div.append(opt_id);
+            opt_div.append(opt_label);
+            opt_div.append(opt_input);
+
+            goodsParamText.append(opt_div);
+        })
+    };
+
+    $("#imagefile").change(function (event) {
+        $("#imgPath").attr("src",URL.createObjectURL($(this)[0].files[0]));
+    })
+</script>
+
+
+

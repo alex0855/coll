@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Carbon - Admin Template</title>
+    <link rel="stylesheet" href="../../static/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../static/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../static/css/styles.css">
+</head>
+<body>
+<div class="page-wrapper flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <span class="display-1 d-block">下单成功</span>
+                <div class="mb-4">The page you are looking for was not found.</div>
+                <form action="/alipay/pay">
+                    <input type="text" th:value="${alipay.subject}" name="subject" hidden="true"/>
+                    <input type="text" th:value="${alipay.out_trade_no}" name="out_trade_no" hidden="true"/>
+                    <input type="text" th:value="${alipay.total_amount}" name="total_amount" hidden="true"/>
+                    <input type="text" th:value="${alipay.product_code}" name="product_code" hidden="true"/>
+                    <h1><button type="submit" >去支付</button></h1>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

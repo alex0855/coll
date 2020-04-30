@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.collection.dao.OrderItemDao">
+    <resultMap id="OrderItemMap" type="com.collection.eo.OrderItem">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="goods_number" property="goodsNumber" jdbcType="INTEGER"></result>
+        <result column="goods_trade_price" property="goodsTradePrice" jdbcType="DECIMAL"></result>
+        <result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL"></result>
+        <result column="trade_status" property="tradeStatus" jdbcType="TINYINT"></result>
+        <result column="remark" property="remark" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="dr" property="dr" jdbcType="TINYINT"></result>
+        <association property="buyer" javaType="com.collection.eo.User"
+                     column="buyer_id" select="com.collection.dao.UserDao.selectUserById"></association>
+        <association property="seller" javaType="com.collection.eo.User"
+                     column="seller_id" select="com.collection.dao.UserDao.selectUserById"></association>
+        <association property="userAddress" javaType="com.collection.eo.UserAddress"
+                     column="address_id" select="com.collection.dao.UserAddressDao.selectUserAddressById"></association>
+        <association property="goods" javaType="com.collection.eo.Goods"
+                     column="goods_id" select="com.collection.dao.GoodsDao.selectGoodsById"></association>
+        <association property="order" javaType="com.collection.eo.Order"
+        column="order_id" select="com.collection.dao.OrderDao.selectOrderById"></association>
+        <association property="standard" javaType="com.collection.eo.Standard"
+                     column="standard_id" select="com.collection.dao.StandardDao.selectStandardById"></association>
+    </resultMap>
+
+    <sql id="table">
+        coll_order_item
+    </sql>
+
+    <sql id="filed">
+        id,order_number,order_id,address_id,goods_number,goods_trade_price,goods_amount,trade_status,goods_id,buyer_id,seller_id,standard_id,remark,create_time,dr
+    </sql>
+
+    <insert id="addOrderItem"   useGeneratedKeys="true">
+        INSERT INTO
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="order!=null">order_id,</if>
+            <if test="order!=null">order_number,</if>
+            <if test="userAddress!=null">address_id,</if>
+            <if test="goodsNumber!=null">goods_number,</if>
+            <if test="goodsTradePrice!=null">goods_trade_price,</if>
+            <if test="goodsAmount!=null">goods_amount,</if>
+            <if test="tradeStatus!=null">trade_status,</if>
+            <if test="goods!=null">goods_id,</if>
+            <if test="buyer!=null">buyer_id,</if>
+            <if test="seller!=null">seller_id,</if>
+            <if test="standard!=null">standard_id,</if>
+            <if test="remark!=null">remark,</if>
+            <if test="dr!=null">dr,</if>
+            <if test="createTime!=null">create_time,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="order!=null">#{order.id},</if>
+            <if test="order!=null">#{order.orderNumber},</if>
+            <if test="userAddress!=null">#{userAddress.id},</if>
+            <if test="goodsNumber!=null">#{goodsNumber},</if>
+            <if test="goodsTradePrice!=null">#{goodsTradePrice},</if>
+            <if test="goodsAmount!=null">#{goodsAmount},</if>
+            <if test="tradeStatus!=null">#{tradeStatus},</if>
+            <if test="goods!=null">#{goods.id},</if>
+            <if test="buyer!=null">#{buyer.id},</if>
+            <if test="seller!=null">#{seller.id},</if>
+            <if test="standard!=null">#{standard.id},</if>
+            <if test="remark!=null">#{remark},</if>
+            <if test="dr!=null">#{dr},</if>
+            <if test="createTime!=null">#{createTime},</if>
+        </trim>
+        <selectKey resultType="INTEGER" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOrderItem">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            <if test="goodsNumber!=null">goods_number=#{goodsNumber},</if>
+            <if test="order!=null">order_id=#{order.id},</if>
+            <if test="order!=null">order_number=#{order.orderNumber},</if>
+            <if test="userAddress!=null">address_id=#{userAddress.id},</if>
+            <if test="goodsNumber!=null">goods_number=#{goodsNumber},</if>
+            <if test="goodsTradePrice!=null">goods_trade_price=#{goodsTradePrice},</if>
+            <if test="goodsAmount!=null">goods_amount=#{goodsAmount},</if>
+            <if test="tradeStatus!=null">trade_status=#{tradeStatus},</if>
+            <if test="goods!=null">goods_id=#{goods.id},</if>
+            <if test="buyer!=null">buyer_id=#{buyer.id},</if>
+            <if test="seller!=null">seller_id=#{seller.id},</if>
+            <if test="standard!=null">standard_id=#{standard.id},</if>
+            <if test="remark!=null">remark=#{remark},</if>
+            <if test="dr!=null">dr=#{dr},</if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="deleteOrderItemById">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteOrderItemByGroup">
+        UPDATE
+        <include refid="table"/>
+        <set>
+            dr=1
+        </set>
+        <where>
+            id IN
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <foreach collection="array" item="item">
+                    #{item},
+                </foreach>
+            </trim>
+        </where>
+    </delete>
+
+    <select id="selectOrderItem" resultMap="OrderItemMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id=#{id}</if>
+            <if test="goodsNumber!=null">goods_number=#{goodsNumber}</if>
+            <if test="order!=null">and order_id=#{order.id}</if>
+            <if test="order!=null">and order_number=#{order.orderNumber}</if>
+            <if test="userAddress!=null">and address_id=#{userAddress.id}</if>
+            <if test="goodsNumber!=null">and goods_number=#{goodsNumber}</if>
+            <if test="goodsTradePrice!=null">and goods_trade_price=#{goodsTradePrice}</if>
+            <if test="goodsAmount!=null">and goods_amount=#{goodsAmount}</if>
+            <if test="tradeStatus!=null">and trade_status=#{tradeStatus}</if>
+            <if test="goods!=null">and goods_id=#{goods.id}</if>
+            <if test="buyer!=null">and buyer_id=#{buyer.id}</if>
+            <if test="seller!=null">and seller_id=#{seller.id}</if>
+            <if test="standard!=null">and standard_id=#{standard.id}</if>
+            <if test="remark!=null">and remark=#{remark}</if>
+            <if test="createTime!=null">and create_time=#{createTime}</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="queryOrderItem" resultMap="OrderItemMap">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        <where>
+            <if test="id!=null">id like CONCAT('%',#{id},'%')</if>
+            <if test="goodsNumber!=null">and goods_number like CONCAT('%',#{goodsNumber},'%')</if>
+            <if test="order!=null">and order_id like CONCAT('%',#{order.id},'%')</if>
+            <if test="order!=null">and order_number like CONCAT('%',#{order.orderNumber},'%')</if>
+            <if test="userAddress!=null">and address_id like CONCAT('%',#{userAddress.id},'%')</if>
+            <if test="goodsNumber!=null">and goods_number like CONCAT('%',#{goodsNumber},'%')</if>
+            <if test="goodsTradePrice!=null">and goods_trade_price like CONCAT('%',#{goodsTradePrice},'%')</if>
+            <if test="goodsAmount!=null">and goods_amount like CONCAT('%',#{goodsAmount},'%')</if>
+            <if test="tradeStatus!=null">and trade_status like CONCAT('%',#{tradeStatus},'%')</if>
+            <if test="goods!=null">and goods_id like CONCAT('%',#{goods.id},'%')</if>
+            <if test="buyer!=null">and buyer_id like CONCAT('%',#{buyer.id},'%')</if>
+            <if test="seller!=null">and seller_id like CONCAT('%',#{seller.id},'%')</if>
+            <if test="standard!=null">and standard_id like CONCAT('%',#{standard.id},'%')</if>
+            <if test="remark!=null">and remark like CONCAT('%',#{remark},'%')</if>
+            <if test="createTime!=null">and create_time like CONCAT('%',#{createTime},'%')</if>
+            and dr=0
+        </where>
+    </select>
+
+    <select id="selectOrderItemById" resultMap="OrderItemMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+            id=#{id}
+            and dr=0
+    </select>
+
+    <select id="selectOrderItemByOrderId" resultMap="OrderItemMap" parameterType="java.lang.Integer">
+        select
+        <include refid="filed"/>
+        from
+        <include refid="table"/>
+        where
+        order_id=#{orderId}
+        and dr=0
+    </select>
+</mapper>

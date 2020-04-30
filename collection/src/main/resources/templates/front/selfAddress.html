@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+        <meta name="author" content="order by dede58.com"/>
+		<title>个人中心</title>
+		<link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+
+		<link href="../../static/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
+
+		<link href="../../static/basic/css/demo.css" rel="stylesheet" type="text/css" />
+		<link href="../../static/basic/css2/cartstyle.css" rel="stylesheet" type="text/css" />
+
+		<link href="../../static/basic/css2/jsstyle.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="../../static/js/address.js"></script>
+		<!--<script type="text/javascript" src="../../static/basic/js/jquery-1.7.min.js"></script>-->
+		<script src="../../static/vendor/jquery/jquery.min.js"></script>
+	</head>
+	</head>
+	<body>
+	<!-- start header -->
+		<header>
+			<div class="top center">
+				<div class="left fl">
+					<ul>
+						<li><a href="/index" target="_blank">收藏品交易商城</a></li>
+						<li>|</li>
+						<li><a href="">COLLECTION</a></li>
+						<li>|</li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right fr">
+					<div class="gouwuche fr"><a href="/trade/cartPage">购物车</a></div>
+					<div class="fr">
+						<ul>
+							<li><a href="/user/loginPage" target="_blank">登录</a></li>
+							<li>|</li>
+							<li><a href="/user/registerPage" target="_blank" >注册</a></li>
+							<li>|</li>
+							<li><a href="/user/self/info">个人中心</a></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</header>
+	<!--end header -->
+	<!-- start banner_x -->
+		<div class="banner_x center">
+			<a href="index.html" target="_blank"><div class="fl"></div></a>
+			<a href=""><div class="ad_top fl"></div></a>
+			<div class="nav fl">
+				<ul>
+					<li><a href="/goods/list" target="_blank">商品浏览</a></li>
+					<li><a href="/order/center" target="_blank">订单中心</a></li>
+					<li><a href="">古玩</a></li>
+					<li><a href="">数码</a></li>
+					<li><a href="">车型</a></li>
+					<li><a href="">书籍·漫画</a></li>
+					<!--<li><a href="">路由器</a></li>-->
+					<!--<li><a href="">智能硬件</a></li>-->
+					<li><a href="">服务</a></li>
+					<li><a href="">社区</a></li>
+				</ul>
+			</div>
+			<div class="search fr">
+				<form action="" method="post">
+					<div class="text fl">
+						<input type="text" class="shuru"  placeholder="">
+					</div>
+					<div class="submit fl">
+						<input type="submit" class="sousuo" value="搜索"/>
+					</div>
+					<div class="clear"></div>
+				</form>
+				<div class="clear"></div>
+			</div>
+		</div>
+<!-- end banner_x -->
+<!-- self_info -->
+	<div class="grzxbj">
+		<div class="selfinfo center">
+		<div class="lfnav fl">
+			<div class="ddzx">订单中心</div>
+			<div class="subddzx">
+				<ul>
+					<li><a href="/order/center">我的订单</a></li>
+					<li><a href="/order/cancelPage">取消订单</a></li>
+					<li><a href="/userAddress/self/select" style="color:#ff6700;font-weight:bold;">收货地址</a></li>
+					<!--<li><a href="">评价晒单</a></li>-->
+				</ul>
+			</div>
+			<div class="ddzx">个人中心</div>
+			<div class="subddzx">
+				<ul>
+					<li><a href="/user/self/info" >我的个人中心</a></li>
+					<li><a href="/user/change/passwordPage">修改密码</a></li>
+					<li><a href="/userColl/self/select" >我的收藏</a></li>
+					<!--<li><a href="">收货地址</a></li>-->
+				</ul>
+			</div>
+		</div>
+
+		<div class="rtcont fr" style="background-color: rgba(176,235,255,0.85)">
+			<div class="tc-btn createAddr theme-login am-btn am-btn-danger">使用新地址</div>
+			<div class="ddzxbt">用户地址</div>
+
+			<div style="width: 978px;height: 30px;margin:0 auto; text-align:center; border:1px solid #FF6699;">
+				<div style="width: 10%;display:inline;float: left" >收货人</div>
+				<div style="width: 10%;display:inline;float: left" >手机号码</div>
+				<div style="width: 8%;display:inline;float: left" >省份</div>
+				<div style="width: 8%;display:inline;float: left" >城市</div>
+				<div style="width: 8%;display:inline;float: left" >县区</div>
+				<div style="width: 26%;display:inline;float: left" >详细地址</div>
+				<div style="width: 10%;display:inline;float: left" >默认地址</div>
+				<div style="width: 10%;display:inline;float: left" >操作</div>
+				<div style="width: 10%;display:inline;float: left" ></div>
+			</div>
+
+			<div style="width: 978px;height: 50px;margin:0 auto; text-align:center; border:1px solid #FF6699;" th:each="obj:${address}">
+				<div style="width: 10%;display:inline;float: left" th:text="${obj.name}">收货人</div>
+				<div style="width: 10%;display:inline;float: left" th:text="${obj.phone}">手机号码</div>
+				<div style="width: 8%;display:inline;float: left" th:text="${obj.province}">省份</div>
+				<div style="width: 8%;display:inline;float: left" th:text="${obj.city}">城市</div>
+				<div style="width: 8%;display:inline;float: left" th:text="${obj.district}">县区</div>
+				<div style="width: 26%;display:inline;float: left" th:text="${obj.street}">详细地址</div>
+				<div style="width: 10%;display:inline;float: left" th:switch="${obj.isDefault}"><p th:case="1">是</p><p th:case="*">否</p></div>
+				<div style="width: 10%;display:inline;float: left" ><a th:href="@{/userAddress/self/delect/{id}(id=${obj.id})}" style="color: red">删除</a></div>
+				<div style="width: 10%;display:inline;float: left" ><a th:href="@{/userAddress/self/default/{id}(id=${obj.id})}" style="color: red">设为默认地址</a></div>
+			</div>
+
+		</div>
+		<div class="clear"></div>
+		</div>
+	</div>
+
+	<div class="theme-popover">
+
+		<!--标题 -->
+		<div class="am-cf am-padding">
+			<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">新增地址</strong> / <small>Add address</small></div>
+		</div>
+		<hr/>
+
+		<div class="am-u-md-12">
+			<form class="am-form am-form-horizontal" action="/userAddress/add">
+
+				<div class="am-form-group">
+					<label for="user-name" class="am-form-label">收货人</label>
+					<div class="am-form-content">
+						<input type="text" id="user-name" name="name" placeholder="收货人" required>
+					</div>
+				</div>
+
+				<div class="am-form-group">
+					<label for="user-phone" class="am-form-label">手机号码</label>
+					<div class="am-form-content">
+						<input id="user-phone" placeholder="手机号必填" type="text" name="phone" required>
+					</div>
+				</div>
+
+				<div class="am-form-group">
+					<label for="user-phone" class="am-form-label">所在地</label>
+					<div class="am-form-content address">
+						<select data-am-selected name="province" required>
+							<option value="广东省">广东省</option>
+							<!--<option value="湖北省">湖北省</option>-->
+						</select>
+						<select data-am-selected name="city" required>
+							<option value="广州市">广州市</option>
+							<option value="潮州市">潮州市</option>
+						</select>
+						<select data-am-selected name="district" required>
+							<option value="天河区">天河区</option>
+							<option value="黄埔区">黄埔区</option>
+							<option value="越秀区">越秀区</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="am-form-group">
+					<label for="user-intro" class="am-form-label">详细地址</label>
+					<div class="am-form-content">
+						<textarea class="" rows="3" id="user-intro" placeholder="输入详细地址" name="street" required></textarea>
+						<small>100字以内写出你的详细地址...</small>
+					</div>
+				</div>
+
+				<div class="am-form-group theme-poptit">
+					<div class="am-u-sm-9 am-u-sm-push-3">
+						<button type="submit"><div class="am-btn am-btn-danger">保存</div>	</button>
+						<div class="am-btn am-btn-danger close">取消</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+
+	</div>
+
+
+
+<!-- self_info -->
+		
+		<!--<footer class="mt20 center">-->
+			<!--<div class="mt20">收藏品商城|COLLECTION|隐私政策|Select Region</div>-->
+			<!--<div>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号</div>-->
+			<!--<div>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</div>-->
+		<!--</footer>-->
+	</body>
+</html>
